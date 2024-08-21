@@ -14,6 +14,14 @@ pip install xedu-python gradio requests
 ```
 源码可以根据需要修改使用。
 
+## 如何打包为exe
+利用pyinstaller：`pip install pyinstaller`
+```
+pyinstaller -F -w your/python/file.py
+```
+- `-F`：生成独立exe文件；
+- `-w`：不要启动黑框命令行。
+
 ## 软件许可
 https://github.com/EasonQYS/XEduLLM-tools/blob/main/LICENSE
 
