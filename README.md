@@ -1,5 +1,7 @@
 # XEduLLM-tools
 
+<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=112994499431048&bvid=BV12tWsePEmA&cid=500001656107517&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
+
 ## 开发历史
 [2024.8.20]
 当前发布版本为`Windows`版本，支持`win7-win11`。
