@@ -38,3 +38,6 @@ https://github.com/EasonQYS/XEduLLM-tools/blob/main/LICENSE
 
 ## 发版（release）
 https://github.com/EasonQYS/XEduLLM-tools/releases
+
+## 相关链接
+感谢https://github.com/Chadwuo/HHSoftwarePack 提供的安装包制作工具。
