@@ -1,3 +1,8 @@
+'''
+# 为XEduLLM编写一个GUI
+# 环境依赖：python(含xedu-python gradio requests)，环境已放置于env文件夹
+# 代码编写：邱奕盛 钟以维(2024.8.27)
+'''
 import tkinter as tk
 from tkinter import ttk
 import subprocess
@@ -6,7 +11,8 @@ import os
 import socket
 import ipaddress
 from tkinter import messagebox
-import pyperclip
+#import pyperclip
+import json
 # 创建主窗口
 root = tk.Tk()
 root.title("XEduLLM")
@@ -72,11 +78,24 @@ def on_closing():
     stop_subprocess()
     root.destroy()
 def copy_to_clipboard(url):
-    pyperclip.copy(url)
+    root.clipboard_clear()
+    root.clipboard_append(url)
+    #pyperclip.copy(url)
     messagebox.showinfo("复制成功", "链接已复制到剪贴板")
 def start():
     try:
         os.makedirs('env',exist_ok=True)
+        # 记录apiKeys
+        try:
+            with open('env/apiKeys.json','r',encoding='utf-8') as load_f:
+                load_dict = json.load(load_f)
+        except:
+            load_dict={}
+        load_dict[optionbox1.get()] = input_var.get()
+        #print(load_dict)
+        with open('env/apiKeys.json', 'w', encoding='utf-8') as json_file:
+            json.dump(load_dict, json_file, indent=4, ensure_ascii=False) 
+        
         with open('env/config.py','w',encoding='utf-8')as f:
             f.write('from XEdu.LLM import Client\n')
             p1 = optionbox1.get() #provider
@@ -106,7 +125,7 @@ def start():
             f.write(f"chatbot.run(host='0.0.0.0', port={p5})")
         run_window = tk.Toplevel(root)
         run_window.geometry("400x300")
-        run_window.geometry(f'+{position_x+350}+{position_y}')
+        run_window.geometry(f'+{position_x+380}+{position_y}')
         run_window.title("帮助：如何使用")
         title = ttk.Label(run_window, text='服务已启动，服务地址为：')
         title.pack(pady=20)
@@ -171,6 +190,20 @@ def update_second_optionbox(*args):
         optionbox2['values']= ('deepseek-chat', 'deepseek-coder')
     # 无论选择什么，都重置第二个选择框为“请选择”
     optionbox2.set(optionbox2['values'][0])
+    
+    # 自动记录历史的apikey。
+    try:
+        os.makedirs('env',exist_ok=True)
+        with open('env/apiKeys.json','r',encoding='utf-8') as f:
+            load_dict = json.load(f)
+        apiKey = load_dict[optionbox1.get()]
+        print(load_dict)
+    except:
+        apiKey=""
+        #print('meiyou')
+    input_var.set(apiKey)
+    
+    
 # 绑定第一个选择框的选项变化事件
 optionbox1.bind('<<ComboboxSelected>>', update_second_optionbox)
 
@@ -183,8 +216,11 @@ optionbox2.grid(row=2, column=1, padx=5, pady=5)
 token_label = ttk.Label(root, text="API_Key:")
 token_label.grid(row=3, column=0, sticky="e", padx=5, pady=5)
 
-inputbox1 = ttk.Entry(root, textvariable=tk.StringVar(root))
+input_var = tk.StringVar(value="")
+inputbox1 = ttk.Entry(root, textvariable=input_var)
 inputbox1.grid(row=3, column=1, padx=5, pady=5)
+
+update_second_optionbox(None)
 
 # 添加问号图标
 question_mark = '?'  # 使用问号字符作为图标
@@ -212,7 +248,7 @@ def hide_tooltip(event):
 def help_window(*args):
     h_window = tk.Toplevel(root)
     h_window.geometry("400x300")
-    h_window.geometry(f'+{position_x+350}+{position_y}')
+    h_window.geometry(f'+{position_x+380}+{position_y}')
     h_window.title("帮助：如何获取API_Key")
     prov = ['通义千问', 'openrouter', 'Kimi','深度求索','智谱清言']
     urls = ["https://dashscope.console.aliyun.com/apiKey", "https://openrouter.ai/settings/keys", "https://platform.moonshot.cn/console/api-keys","https://platform.deepseek.com/api_keys","https://open.bigmodel.cn/usercenter/apikeys"]
@@ -229,6 +265,8 @@ def help_window(*args):
     info3 = ttk.Label(h_window, text="<<<<<<XEduLLM使用说明>>>>>>", cursor="hand2")
     info3.bind("<Button-1>", lambda event, url=url: webbrowser.open("https://xedu.readthedocs.io/zh-cn/master/xedu_llm.html", new=2))
     info3.grid(row=8, column=1, sticky="w", padx=5, pady=5)
+    info3 = ttk.Label(h_window, text="当前版本：v1.1  特别鸣谢：邱奕盛 钟以维")
+    info3.grid(row=9, column=1, sticky="w", padx=5, pady=5)
     
     
 # 绑定鼠标悬停和离开事件
