@@ -1,6 +1,6 @@
 # XEduLLM-tools
 
-<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=112994499431048&bvid=BV12tWsePEmA&cid=500001656107517&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
+视频教程见（B站）：https://www.bilibili.com/video/BV1pKsxewEo3/?share_source=copy_web&vd_source=ca47cf8d0af314fd89055e7dc8d5dd86
 
 ![image](https://github.com/user-attachments/assets/3a074d22-e43c-4ab4-8b1b-7a9bf04511f3)
 ![image](https://github.com/user-attachments/assets/75551215-9810-4318-b4f5-8a38f8c1588a)
